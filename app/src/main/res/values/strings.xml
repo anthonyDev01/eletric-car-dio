@@ -10,4 +10,9 @@
     <string name="preco_kwh">Preço Kwh</string>
     <string name="km_percorrido">Km Percorrido</string>
     <string name="calcular">Calcular</string>
+    <string name="_23_min">23 min</string>
+    <string name="_540cv">540cv</string>
+    <string name="_300_vwc">300 vWc</string>
+    <string name="r_200_000">R$ 200.000</string>
+    <string name="calcular_autonomia">Calcular Autonomia</string>
 </resources>
