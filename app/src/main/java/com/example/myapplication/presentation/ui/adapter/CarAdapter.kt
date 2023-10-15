@@ -3,12 +3,15 @@ package com.example.myapplication.presentation.ui.adapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.presentation.domain.Carro
 
-class CarAdapter(private  val carros : List<Carro>) : RecyclerView.Adapter<CarAdapter.ViewHolder>(){
+class CarAdapter(private  val carros : List<Carro>, private val isFavoriteScreen : Boolean = false) : RecyclerView.Adapter<CarAdapter.ViewHolder>(){
+
+    var carItemLister: (Carro) -> Unit = {}
 
     //cria uma nova View
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -26,6 +29,28 @@ class CarAdapter(private  val carros : List<Carro>) : RecyclerView.Adapter<CarAd
         holder.potencia.text = carros[position].potencia
         holder.recarga.text = carros[position].recarga
 
+        if(isFavoriteScreen){
+            holder.favorito.setImageResource(R.drawable.ic_star_selected)
+        }
+
+        holder.favorito.setOnClickListener{
+            val carro = carros[position]
+            carItemLister(carro)
+            setupFavorite(carro, holder)
+        }
+
+    }
+
+    private fun setupFavorite(
+        carro: Carro,
+        holder: ViewHolder
+    ) {
+        carro.isFavorite = !carro.isFavorite
+
+        if (carro.isFavorite)
+            holder.favorito.setImageResource(R.drawable.ic_star_selected)
+        else
+            holder.favorito.setImageResource(R.drawable.ic_star)
     }
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view){
@@ -33,12 +58,14 @@ class CarAdapter(private  val carros : List<Carro>) : RecyclerView.Adapter<CarAd
         val bateria: TextView
         val potencia: TextView
         val recarga: TextView
+        val favorito: ImageView
         init{
             view.apply {
                 preco = findViewById(R.id.tv_preco_value)
                 bateria = findViewById(R.id.tv_bateria_value)
                 potencia = findViewById(R.id.tv_potencia_value)
                 recarga = findViewById(R.id.tv_recarga_value)
+                favorito = findViewById(R.id.iv_favorite)
             }
         }
     }
